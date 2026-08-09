@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/src/main2.ts"></script>
+    <title>電卓アプリ</title>
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+  <body>
+    <div class="calculator">
+
+      <div id="display">
+        <div id="history"></div>
+        <div id="current">0</div>
+      </div>
+      
+      <div class="buttons">
+        <button class="btn" data-key="7">7</button>
+        <button class="btn" data-key="8">8</button>
+        <button class="btn" data-key="9">9</button>
+        <button class="btn operator" data-key="/">÷</button>
+        <button class="btn" data-key="4">4</button>
+        <button class="btn" data-key="5">5</button>
+        <button class="btn" data-key="6">6</button>
+        <button class="btn operator" data-key="*">×</button>
+        <button class="btn" data-key="1">1</button>
+        <button class="btn" data-key="2">2</button>
+        <button class="btn" data-key="3">3</button>
+        <button class="btn operator" data-key="-">－</button>
+        <button class="btn" data-key="0">0</button>
+        <button id="dot" class="btn" data-key=".">.</button>
+        <button class="btn" data-key="c">C</button>
+        <button class="btn operator" data-key="+">+</button>
+
+        <button class="btn equal" id="equal" data-key="=">=</button>
+
+      </div>
+
+    </div>
+   
+  </body>
+</html>
