@@ -68,7 +68,7 @@ export class Calculator {
         this.buffer.pushDigit(d);
 
         // 現在の入力値を表示する
-        this.display.render(this.buffer.toNumber().toString());
+        this.display.render(this.buffer.getValue());
     }
 
     
@@ -83,7 +83,7 @@ export class Calculator {
         this.buffer.pushDecimal();
 
         // 現在の入力値を表示する
-        this.display.render(this.buffer.toNumber().toString());
+        this.display.render(this.buffer.getValue());
     }
 
 
@@ -94,6 +94,18 @@ export class Calculator {
     */
 
     handleOperator(op: Operation): void {
+
+        //数値未入力時に「-」が押下された場合は負数入力を開始する
+        if(this.state === CalcState.Ready &&
+            op === Operation.Subtract&&
+            this.buffer.isEmpty()
+         ){
+            this.buffer.pushNegative();
+
+            this.display.render(this.buffer.getValue());
+
+            return;
+         }
 
         // 「=」の直後に演算子が押された場合
         if (this.state === CalcState.ResultShown) {

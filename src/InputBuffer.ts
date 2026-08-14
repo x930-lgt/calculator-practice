@@ -112,4 +112,22 @@ export class InputBuffer{
      
     }
 
+    getValue():string{
+        if(this.isEmpty()){
+            return "0";
+        }
+        return this.value;
+
+    }
+
+    /**
+    * 負数入力のためにマイナス記号を追加する
+    */
+    pushNegative(): void {
+         if(this.value === ""){
+            this.value = "-";
+         }
+        
+    }
+
 }
