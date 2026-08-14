@@ -17,12 +17,23 @@ import { KeyMapper } from "./KeyMapper";
 // 表示先となるDOM要素を取得する
 const displayElement = document.getElementById("current");
 
-if(!displayElement){
+//nullチェック
+if (!displayElement) {
     throw new Error("display not found");
 }
 
+const historyElement = document.getElementById("history");
+
+//nullチェック
+if(!historyElement){
+    throw new Error("history not found");
+}
+
 // 画面表示を担当するオブジェクトを生成
-const display = new DomDisplay(displayElement);
+const display = new DomDisplay(
+    displayElement,
+    historyElement
+);
 
 // 数値入力を管理するオブジェクトを生成
 const buffer = new InputBuffer("",Config.MAX_DIGITS);

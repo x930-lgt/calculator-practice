@@ -7,10 +7,18 @@ export interface  IDisplay{
      * @param text 表示する文字列
      */
     render(text: string): void;
+
+    /**
+     * 指定された文字列を表示する
+     * @param text 履歴エリアに表示する文字列
+     */
+    renderHistory(text:string):void;
     
     /**
      * エラーメッセージを表示する
      * @param message 表示するエラーメッセージ
      */
     renderError(message: string): void;
+
+   
 }
