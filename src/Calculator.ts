@@ -138,6 +138,15 @@ export class Calculator {
             // 計算結果を左辺として使うので演算子だけ更新する
             this.operator = op;
 
+
+            // 演算子を表示用の記号へ変換
+            const symbol = operationToSymbol(op);
+
+            // 計算結果と演算子を履歴に表示
+            this.display.renderHistory(
+                `${this.left} ${symbol}`
+            );
+
             // 次の数字入力に備えてバッファをクリア
             this.buffer.clear();
 
@@ -159,6 +168,10 @@ export class Calculator {
 
             // 入力された演算子を保存
             this.operator = op;
+
+            this.display.renderHistory(
+                `${this.left} ${operationToSymbol(op)}`
+            );
 
             // 次の数値入力に備えてバッファをクリア
             this.buffer.clear();
@@ -231,7 +244,7 @@ export class Calculator {
             );
             // 演算子を表示用の記号へ変換
             const symbol = operationToSymbol(this.operator);
-            
+
             // 計算式を履歴エリアへ表示
             this.display.renderHistory(
                 `${this.left} ${symbol} ${right} =`
