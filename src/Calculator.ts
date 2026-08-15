@@ -1,5 +1,6 @@
 import { CalcState } from "./Enums";
 import { Operation } from "./Enums";
+import { operationToSymbol } from "./Enums";
 import { InputBuffer } from "./InputBuffer";
 import { Evaluator } from "./Evaluator";
 import { NumberFormatter } from "./NumberFormatter";
@@ -227,6 +228,13 @@ export class Calculator {
                 this.left,
                 this.operator,
                 right
+            );
+            // 演算子を表示用の記号へ変換
+            const symbol = operationToSymbol(this.operator);
+            
+            // 計算式を履歴エリアへ表示
+            this.display.renderHistory(
+                `${this.left} ${symbol} ${right} =`
             );
 
             // 表示用の文字列へ変換
