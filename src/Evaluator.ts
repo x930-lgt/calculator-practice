@@ -15,9 +15,8 @@ export class Evaluator{
      * @throws {DivisionByZeroError} 0除算が発生した場合
      * @throws {Error} 不正な演算子が渡された場合
      */
-
-    compute ( a:number,op:Operation,b:number):number{
-        switch(op){
+    compute(a: number, op: Operation, b: number): number{
+        switch(op) {
             case Operation.Add:
                 return a + b;
 
@@ -28,8 +27,8 @@ export class Evaluator{
                 return a * b;
             
             case Operation.Divide:
-                // 0除算は許可せず例外をなげる
-                if(b === 0){
+                // 0除算の場合は専用の例外を投げる
+                if (b === 0) {
                      throw new DivisionByZeroError();
                 }
                 return a / b;

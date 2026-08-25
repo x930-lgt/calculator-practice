@@ -1,6 +1,6 @@
 import { CalcState } from "./Enums";
 import { Operation } from "./Enums";
-import { operationToSymbol } from "./Enums";
+import { operationToSymbol } from "./OperationToSymbol";
 import { InputBuffer } from "./InputBuffer";
 import { Evaluator } from "./Evaluator";
 import { NumberFormatter } from "./NumberFormatter";
@@ -108,6 +108,23 @@ export class Calculator {
             return;
         }
 
+        // 演算子入力後、次の数値がまだ入力されていない場合
+        // 新しい演算子に変更する
+        if (
+            this.state === CalcState.OperatorEntered &&
+            this.buffer.isEmpty()
+        ) {
+            // 演算子を新しい演算子へ変更
+            this.operator = op;
+
+            // 履歴の演算子も更新
+            this.display.renderHistory(
+                `${this.left} ${operationToSymbol(op)}`
+            );
+
+            return;
+        }
+
         // 負数入力中に「-」が再度押された場合は無視する
         if (
             this.buffer.getValue() === "-" &&
@@ -153,6 +170,12 @@ export class Calculator {
             // 演算子入力済み状態へ遷移
             this.state = CalcState.OperatorEntered;
 
+            return;
+        }
+
+
+        // 数値入力前に演算子が連続して押された場合は無視する
+        if (this.buffer.isEmpty()) {
             return;
         }
 
@@ -215,6 +238,11 @@ export class Calculator {
 
         // 次の数値入力に備えてバッファをクリア
         this.buffer.clear();
+
+        // 計算結果と新しい演算子を履歴に表示
+        this.display.renderHistory(
+            `${this.left} ${operationToSymbol(op)}`
+        );
 
         // 演算子入力済み状態へ遷移
         this.state = CalcState.OperatorEntered;
@@ -300,5 +328,7 @@ export class Calculator {
 
         // ディスプレイを初期表示に戻す
         this.display.render("0");
+
+        this.display.renderHistory("");
     }
 }

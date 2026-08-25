@@ -1,8 +1,6 @@
 /**
  * 電卓の状態を表す列挙型
  */
-
-
 export enum CalcState {
     //初期状態・クリア直後。まだ計算を開始していない状態。
     Ready,
@@ -22,39 +20,22 @@ export enum CalcState {
     //エラーが発生し、エラーメッセージを表示している状態。
     Error
 }
+
 /**
  * 四則演算の種類を表す列挙型
  */
-export enum Operation{
+export enum Operation {
+    //加算
     Add,
+
+    //減算
     Subtract,
+
+    //乗算
     Multiply,
+
+    //除算
     Divide,
 }
 
 
-/**
- * 演算子を表示用の記号へ変換する
- *
- * @param operation 演算子
- * @returns 表示用の演算子記号
- */
-export function operationToSymbol(operation:Operation):string{
-    switch(operation){
-        case Operation.Add:
-            return "+";
-        
-        case Operation.Subtract:
-            return "-";
-
-        case Operation.Multiply:
-            return "×";
-
-        case Operation.Divide:
-            return "÷";
-
-        default:
-            throw new Error("不正な演算子");
-    }
-
-}

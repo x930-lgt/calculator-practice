@@ -8,14 +8,13 @@ export class KeyMapper {
     /**
     * data-key と KeyToken の対応表
     */
-
     private keyMap: Map<string, KeyToken>;
 
     constructor() {
         this.keyMap = new Map();
 
         // 数字キー(0～9)を登録する
-        for(let i=0;i<=9; i++){
+        for (let i = 0; i <= 9; i++) {
             this.keyMap.set(
                 i.toString(),
                 {
@@ -54,12 +53,12 @@ export class KeyMapper {
             value:Operation.Divide
         });
 
-        //イコールキー
+        // イコールキー
         this.keyMap.set("=",{
             kind:"equal"
         });
 
-        //クリアキー
+        // クリアキー
         this.keyMap.set("c",{
             kind:"clear"
         });
