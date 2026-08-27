@@ -1,12 +1,12 @@
 /**
  * 数値を表示用の文字列へ変換するクラス
  *
- * 桁数制限を超える場合は指数表記へ変換する。
+ * 表示可能な桁数を超える場合は指数表記へ変換する。
  */
 export class NumberFormatter{
     private maxDigits:number;
 
-    constructor(maxDigits:number){
+    constructor(maxDigits: number){
         this.maxDigits = maxDigits;
     }
     
@@ -17,11 +17,11 @@ export class NumberFormatter{
      * @returns 表示用文字列
      */
     formatForDisplay(n: number): string{
-        //桁数に収まるならそのまま表示
-        if(this.fits(n)){
+        // 桁数に収まるならそのまま表示
+        if (this.fits(n)) {
             return n.toString();
         }
-        //桁数に収まらない場合は指数表記
+        // 桁数に収まらない場合は指数表記
         return n.toExponential(this.maxDigits - 1);
 
     }
@@ -30,12 +30,14 @@ export class NumberFormatter{
      * 数値が表示可能桁数に収まるか判定する
      *
      * @param n 判定対象の数値
-     * @returns 桁数に収まる場合は true
+     * @returns 表示可能桁数に収まる場合は true
      */
     fits(n: number): boolean{
         const digits = n
         .toString()
+        // 小数点は桁数として数えない
         .replace(".", "")
+        // 負号は桁数として数えない
         .replace("-", "");
 
         return digits.length <= this.maxDigits;

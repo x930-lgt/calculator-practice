@@ -9,7 +9,7 @@ import { Config } from "./Config";
 
 
 /**
- * 電卓の状態管理と計算処理を行うクラス
+ * 電卓の状態管理と各処理の連携を行うクラス
  *
  * 入力されたキーに応じて内部状態を更新し、
  * 計算結果をディスプレイへ反映する。
@@ -68,7 +68,7 @@ export class Calculator {
         // 入力された数字をバッファへ追加
         this.buffer.pushDigit(d);
 
-        // 現在の入力値を表示する
+        // 現在の入力値を表示エリアに表示
         this.display.render(this.buffer.getValue());
     }
 
@@ -83,7 +83,7 @@ export class Calculator {
         // 小数点をバッファへ追加する
         this.buffer.pushDecimal();
 
-        // 現在の入力値を表示する
+        // 現在の入力値を表示エリアに表示
         this.display.render(this.buffer.getValue());
     }
 
@@ -96,7 +96,7 @@ export class Calculator {
 
     handleOperator(op: Operation): void {
 
-        //数値未入力時に「-」が押下された場合は負数入力を開始する
+        // 数値未入力時に「-」が押下された場合は負数入力を開始する
         if (this.state === CalcState.Ready &&
             op === Operation.Subtract &&
             this.buffer.isEmpty()
@@ -117,7 +117,7 @@ export class Calculator {
             // 演算子を新しい演算子へ変更
             this.operator = op;
 
-            // 履歴の演算子も更新
+            // 履歴エリアの演算子を更新
             this.display.renderHistory(
                 `${this.left} ${operationToSymbol(op)}`
             );
@@ -125,18 +125,8 @@ export class Calculator {
             return;
         }
 
-        // 負数入力中に「-」が再度押された場合は無視する
-        if (
-            this.buffer.getValue() === "-" &&
-            op === Operation.Subtract
-        ) {
-            return;
-        }
-
         // 「-」だけが入力されている状態では、他の演算子を無視する
-        if (
-            this.buffer.getValue() === "-"
-        ) {
+        if (this.buffer.getValue() === "-") {
             return;
         }
 
@@ -147,9 +137,8 @@ export class Calculator {
             return;
         }
 
-        // 「=」の直後に演算子が押された場合
+        //　計算結果表示後に演算子が押された場合
         if (this.state === CalcState.ResultShown) {
-            console.log("＝後の左の数字", this.left);
 
 
             // 計算結果を左辺として使うので演算子だけ更新する
@@ -159,7 +148,7 @@ export class Calculator {
             // 演算子を表示用の記号へ変換
             const symbol = operationToSymbol(op);
 
-            // 計算結果と演算子を履歴に表示
+            // 左辺と演算子を履歴エリアに表示
             this.display.renderHistory(
                 `${this.left} ${symbol}`
             );
@@ -173,8 +162,7 @@ export class Calculator {
             return;
         }
 
-
-        // 数値入力前に演算子が連続して押された場合は無視する
+        // 数値が入力されていない場合は無視する
         if (this.buffer.isEmpty()) {
             return;
         }
@@ -187,11 +175,11 @@ export class Calculator {
 
             // 現在の値を左辺として保存
             this.left = right;
-            console.log("初回左の数字", this.left);
 
             // 入力された演算子を保存
             this.operator = op;
 
+            // 左辺と演算子を履歴エリアに表示
             this.display.renderHistory(
                 `${this.left} ${operationToSymbol(op)}`
             );
@@ -217,17 +205,17 @@ export class Calculator {
             // 計算結果を次回計算の左辺として保持
             this.left = result;
 
-            // 計算結果を表示
+            // 計算結果を表示エリアに表示
             this.display.render(
                 this.formatter.formatForDisplay(result)
             );
 
-        } catch (e: unknown) {
+        } catch {
 
             // エラー状態へ遷移
             this.state = CalcState.Error;
 
-            // エラーメッセージを表示
+            // エラーメッセージを表示エリアに表示
             this.display.renderError(Config.ERROR_MESSAGE);
 
             return;
@@ -239,7 +227,7 @@ export class Calculator {
         // 次の数値入力に備えてバッファをクリア
         this.buffer.clear();
 
-        // 計算結果と新しい演算子を履歴に表示
+        // 左辺と新しい演算子を履歴エリアに表示
         this.display.renderHistory(
             `${this.left} ${operationToSymbol(op)}`
         );
@@ -252,7 +240,6 @@ export class Calculator {
     /**
     * イコール入力を処理し計算を実行する
     */
-
     handleEqual(): void {
 
         // 左辺または演算子が未設定の場合は計算できない
@@ -262,7 +249,7 @@ export class Calculator {
 
         // 現在入力中の値を右辺として取得
         const right: number = this.buffer.toNumber();
-        console.log(right);
+
         try {
             // 左辺 演算子 右辺 で計算を実行
             const result: number = this.evaluator.compute(
@@ -273,7 +260,7 @@ export class Calculator {
             // 演算子を表示用の記号へ変換
             const symbol = operationToSymbol(this.operator);
 
-            // 計算式を履歴エリアへ表示
+            // 計算式を履歴エリアに表示
             this.display.renderHistory(
                 `${this.left} ${symbol} ${right} =`
             );
@@ -281,7 +268,7 @@ export class Calculator {
             // 表示用の文字列へ変換
             const formatted = this.formatter.formatForDisplay(result);
 
-            // 計算結果を表示
+            // 計算結果を表示エリアに表示
             this.display.render(formatted);
 
             // 結果表示状態へ遷移
@@ -292,16 +279,15 @@ export class Calculator {
 
             // 演算子はクリアする
             this.operator = null;
-            console.log("左の数字", this.left);
 
             // 次回入力に備えてバッファをクリア
             this.buffer.clear();
-        } catch (e: unknown) {
+        } catch {
 
             // エラー状態へ遷移
             this.state = CalcState.Error;
 
-            // エラーメッセージを表示
+            // エラーメッセージを表示エリアに表示
             this.display.renderError(Config.ERROR_MESSAGE);
 
         }
@@ -317,18 +303,19 @@ export class Calculator {
         // 入力中の数値をクリア
         this.buffer.clear();
 
-        // 保存している左辺をリセット
+        // 保存している左辺をクリア
         this.left = null;
 
-        // 保存している演算子をリセット
+        // 保存している演算子をクリア
         this.operator = null;
 
         // 初期待機状態へ戻す
         this.state = CalcState.Ready;
 
-        // ディスプレイを初期表示に戻す
+        // 表示エリアを初期表示に戻す
         this.display.render("0");
 
+        //　履歴エリアをクリア
         this.display.renderHistory("");
     }
 }
