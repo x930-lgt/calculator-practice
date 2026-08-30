@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     globals: true, // expect などをグローバルで使えるように
-    environment: 'node', // ブラウザ互換の環境を使用
+    environment: 'jsdom', // ブラウザ環境をシミュレート
     include: ['test/**/*.{test,spec}.{ts,tsx}'], // テストファイルの場所を test フォルダに変更
     root: __dirname,
   },
