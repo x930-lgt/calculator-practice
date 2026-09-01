@@ -26,8 +26,9 @@ class TestDisplay implements IDisplay {
 
 describe("Calculatorのテスト", () => {
 
-
+    // ====================
     // handleDigitのテスト
+    // ====================
     it("数字を入力すると表示される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
@@ -66,7 +67,7 @@ describe("Calculatorのテスト", () => {
         expect(display.text).toBe("123");
     });
 
-    it("計算結果表示後に数字を押すと新しい入力を開始する", () => {
+    it("計算結果表示後に数字を押すと新しい入力が開始される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -88,10 +89,9 @@ describe("Calculatorのテスト", () => {
 
         expect(display.text).toBe("2");
         expect(display.history).toBe("");
-        
     });
 
-    it("エラー表示後に数字を入力すると新しい入力を開始する", () => {
+    it("エラー表示後に数字を入力すると新しい入力が開始される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -111,13 +111,13 @@ describe("Calculatorのテスト", () => {
 
         calculator.handleDigit(2);
 
-
         expect(display.text).toBe("2");
         expect(display.history).toBe("");
-        
     });
 
-    // handleDecimalPoint
+    // ====================
+    // handleDecimalPointのテスト
+    // ====================
     it("小数点を入力すると表示される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
@@ -136,7 +136,7 @@ describe("Calculatorのテスト", () => {
         expect(display.text).toBe("0.");
     });
 
-    it("数字が入力されている状態で小数点を入力すると数字の後ろに表示される", () => {
+    it("数字が入力されている状態で小数点を入力すると数字の後ろに小数点が表示される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -155,7 +155,7 @@ describe("Calculatorのテスト", () => {
         expect(display.text).toBe("5.");
     });
 
-    it("計算後に小数点を押下すると新規に0.が入力される", () => {
+    it("計算結果表示後に小数点を押すと0.から入力が開始される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -176,11 +176,12 @@ describe("Calculatorのテスト", () => {
         calculator.handleDecimalPoint();
         calculator.handleDigit(2);
 
-
         expect(display.text).toBe("0.2");
     });
 
+    // ====================
     // handleOperatorのテスト
+    // ====================
     it("数字入力後に演算子を入力すると履歴エリアに表示される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
@@ -220,7 +221,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("5 ×");
     });
 
-    it("何も入力されていない状態で-の演算子が入力された場合は負数入力をする", () => {
+    it("何も入力されていない状態で-の演算子が入力された場合は負数入力が開始される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -239,7 +240,7 @@ describe("Calculatorのテスト", () => {
         expect(display.text).toBe("-5");
     });
 
-    it("負号だけが入力されている場合は他の演算子を無視する", () => {
+    it("負号だけが入力されている場合は他の演算子は無視される", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -254,7 +255,6 @@ describe("Calculatorのテスト", () => {
 
         calculator.handleOperator(Operation.Subtract);
         calculator.handleOperator(Operation.Add);
-
 
         expect(display.text).toBe("-");
     });
@@ -299,7 +299,6 @@ describe("Calculatorのテスト", () => {
         calculator.handleDigit(2);
         calculator.handleEqual();
 
-
         expect(display.text).toBe("-3");
         expect(display.history).toBe("-5 + 2 =");
     });
@@ -328,7 +327,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("8 ×");
     });
 
-    it("数値入力後に別の演算子を入力すると連続計算できる", () => {
+    it("数値入力後に別の演算子を入力すると計算結果で連続計算を開始する", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -351,7 +350,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("6 ×");
     });
 
-    it("数値入力後に別の演算子を入力して連続計算ができる", () => {
+    it("別の演算子を入力して連続計算を実行できる", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -367,18 +366,15 @@ describe("Calculatorのテスト", () => {
         calculator.handleDigit(3);
         calculator.handleOperator(Operation.Add);
         calculator.handleDigit(3);
-
         calculator.handleOperator(Operation.Multiply);
-
         calculator.handleDigit(2);
-
         calculator.handleEqual();
 
         expect(display.text).toBe("12");
         expect(display.history).toBe("6 × 2 =");
     });
 
-    it("連続計算時に0除算が発生した場合はエラーを表示する", () => {
+    it("連続計算時に0除算が発生した場合はErrorを表示する", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -399,8 +395,10 @@ describe("Calculatorのテスト", () => {
         expect(display.error).toBe("Error");
     });
 
+    // ====================
     // handleEqualのテスト
-    it("イコールボタンを押下時に計算をする", () => {
+    // ====================
+    it("イコールボタン入力時に計算する", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -422,7 +420,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("5 + 3 =");
     });
 
-    it("イコールボタンを押下時に小数の計算をする", () => {
+    it("イコールボタン入力時に小数の計算をする", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -442,14 +440,13 @@ describe("Calculatorのテスト", () => {
         calculator.handleDigit(3);
         calculator.handleDecimalPoint();
         calculator.handleDigit(5);
-
         calculator.handleEqual();
 
         expect(display.text).toBe("5");
         expect(display.history).toBe("1.5 + 3.5 =");
     });
 
-    it("イコールボタンを押下時に負数の計算をする", () => {
+    it("イコールボタン入力時に負数の計算をする", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -467,14 +464,13 @@ describe("Calculatorのテスト", () => {
         calculator.handleDigit(5);
         calculator.handleOperator(Operation.Add);
         calculator.handleDigit(3);
-
         calculator.handleEqual();
 
         expect(display.text).toBe("-2");
         expect(display.history).toBe("-5 + 3 =");
     });
 
-    it("イコールボタンを押下時に小数・負数の計算をする", () => {
+    it("イコールボタン入力時に小数・負数の計算をする", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -495,14 +491,13 @@ describe("Calculatorのテスト", () => {
         calculator.handleDigit(3);
         calculator.handleDecimalPoint();
         calculator.handleDigit(5);
-
         calculator.handleEqual();
 
         expect(display.text).toBe("2");
         expect(display.history).toBe("-1.5 + 3.5 =");
     });
 
-    it("桁数オーバー時の指数表記をする", () => {
+    it("桁数オーバー時は指数表記になる", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -532,7 +527,7 @@ describe("Calculatorのテスト", () => {
     });
 
 
-    it("演算子未入力で = を押しても何もしない", () => {
+    it("演算子未入力でイコールボタンを入力しても何もしない", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -552,7 +547,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("");
     });
 
-    it("左辺未入力の状態で = を押しても何もしない", () => {
+    it("左辺未入力の状態でイコールボタンを入力しても何もしない", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -564,13 +559,14 @@ describe("Calculatorのテスト", () => {
             formatter,
             display
         );
+
         calculator.handleEqual();
 
         expect(display.text).toBe("");
         expect(display.history).toBe("");
     });
 
-    it("0除算エラー", () => {
+    it("0で除算するとErrorを表示する", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -582,17 +578,20 @@ describe("Calculatorのテスト", () => {
             formatter,
             display
         );
+        
         calculator.handleDigit(5);
         calculator.handleOperator(Operation.Divide);
         calculator.handleDigit(0);
         calculator.handleEqual();
 
         expect(display.error).toBe("Error");
-        expect(display.history).toBe("5 ÷");
+        expect(display.history).toBe("5 ÷ 0 =");
     });
 
+    // ====================
     // handleClearのテスト
-    it("クリアボタンを押すと表示と履歴を初期化する", () => {
+    // ====================
+    it("クリアボタン入力時は表示エリアと履歴エリアを初期化する", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);
@@ -615,7 +614,7 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("");
     });
 
-    it("クリア後に新しい計算ができる", () => {
+    it("クリアボタン入力後に新しい計算ができる", () => {
         const buffer = new InputBuffer("", 8);
         const evaluator = new Evaluator();
         const formatter = new NumberFormatter(8);

@@ -3,7 +3,9 @@ import { InputBuffer } from '../src/InputBuffer';
 
 describe("InputBufferのテスト", () => {
 
+    // ====================
     // pushDigitのテスト
+    // ====================
     it("数字を入力できる", () => {
         const buffer = new InputBuffer("", 8);
 
@@ -61,7 +63,9 @@ describe("InputBufferのテスト", () => {
     });
 
 
+    // ====================
     // pushDecimal
+    // ====================
     it("小数点がすでにある場合は小数点を追加しない", () => {
         const buffer = new InputBuffer("", 8);
 
@@ -89,8 +93,9 @@ describe("InputBufferのテスト", () => {
         expect(buffer.getValue()).toBe("9.");
     });
 
-
+    // ====================
     // clearのテスト
+    // ====================
     it("数値をクリアできる", () => {
         const buffer = new InputBuffer("5", 8);
     
@@ -100,7 +105,9 @@ describe("InputBufferのテスト", () => {
     });
 
 
+    // ====================
     // toNumberのテスト
+    // ====================
     it("空文字列は0として扱う", () => {
         const buffer = new InputBuffer("", 8);
 
@@ -116,7 +123,9 @@ describe("InputBufferのテスト", () => {
     });
 
 
+    // ====================
     // isEmptyのテスト
+    // ====================
     it("空の場合はtrueを返す", () => {
         const buffer = new InputBuffer("", 8);
     
@@ -129,8 +138,9 @@ describe("InputBufferのテスト", () => {
         expect(buffer.isEmpty()).toBe(false);
     });
 
-    
+    // ====================
     // digitCountのテスト
+    // ====================
     it("入力された桁数を取得する", () => {
         const buffer = new InputBuffer("", 8);
 
@@ -159,8 +169,9 @@ describe("InputBufferのテスト", () => {
         expect(buffer.digitCount()).toBe(1);
     });
 
-   
+    // ====================
     // getValueのテスト
+    // ====================
     it("現在の入力値を取得できる", () => {
         const buffer = new InputBuffer("", 8);
 
@@ -176,7 +187,9 @@ describe("InputBufferのテスト", () => {
     });
 
 
+    // ====================
     // pushNegativeのテスト
+    // ====================
     it("空の場合は負号を追加する", () => {
         const buffer = new InputBuffer("", 8);
 

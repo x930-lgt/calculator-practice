@@ -3,7 +3,9 @@ import { NumberFormatter } from '../src/NumberFormatter';
 
 describe("NumberFormatterのテスト", () => {
 
+    // ====================
     // formatForDisplayのテスト
+    // ====================
     it("表示可能な桁数の場合はそのまま文字列に変換する", () => {
         const formatter = new NumberFormatter(8);
 
@@ -16,7 +18,9 @@ describe("NumberFormatterのテスト", () => {
         expect(formatter.formatForDisplay(123456789)).toBe("1.2345679e+8");
     });
 
+    // ====================
     // fitsのテスト
+    // ====================
     it("表示可能桁数に収まる場合はtrueを返す", () => {
         const formatter = new NumberFormatter(8);
 

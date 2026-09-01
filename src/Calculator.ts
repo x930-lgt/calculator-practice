@@ -80,6 +80,16 @@ export class Calculator {
     */
 
     handleDecimalPoint(): void {
+
+        // エラー状態または計算結果表示後は新しい入力を開始する
+        if (
+            this.state === CalcState.Error ||
+            this.state === CalcState.ResultShown
+        ) {
+            this.handleClear();
+        }
+
+
         // 小数点をバッファへ追加する
         this.buffer.pushDecimal();
 
@@ -250,19 +260,20 @@ export class Calculator {
         // 現在入力中の値を右辺として取得
         const right: number = this.buffer.toNumber();
 
+        // 演算子を表示用の記号へ変換
+        const symbol = operationToSymbol(this.operator);
+
+        // 計算式を履歴エリアに表示
+        this.display.renderHistory(
+            `${this.left} ${symbol} ${right} =`
+        );
+
         try {
             // 左辺 演算子 右辺 で計算を実行
             const result: number = this.evaluator.compute(
                 this.left,
                 this.operator,
                 right
-            );
-            // 演算子を表示用の記号へ変換
-            const symbol = operationToSymbol(this.operator);
-
-            // 計算式を履歴エリアに表示
-            this.display.renderHistory(
-                `${this.left} ${symbol} ${right} =`
             );
 
             // 表示用の文字列へ変換
@@ -282,6 +293,7 @@ export class Calculator {
 
             // 次回入力に備えてバッファをクリア
             this.buffer.clear();
+
         } catch {
 
             // エラー状態へ遷移

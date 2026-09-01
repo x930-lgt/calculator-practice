@@ -6,7 +6,9 @@ describe("KeyMapperのテスト", () => {
 
     
 
+    // ====================
     // resolveのテスト
+    // ====================
     it("数字キーをKeyTokenに変換できる", () => {
         
         const mapper = new KeyMapper();
