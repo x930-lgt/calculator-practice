@@ -1,6 +1,6 @@
 import { CalcState } from "./Enums";
 import { Operation } from "./Enums";
-import { operationToSymbol } from "./OperationToSymbol";
+import { OperationToSymbol } from "./OperationToSymbol";
 import { InputBuffer } from "./InputBuffer";
 import { Evaluator } from "./Evaluator";
 import { NumberFormatter } from "./NumberFormatter";
@@ -129,7 +129,7 @@ export class Calculator {
 
             // 履歴エリアの演算子を更新
             this.display.renderHistory(
-                `${this.left} ${operationToSymbol(op)}`
+                `${this.left} ${OperationToSymbol(op)}`
             );
 
             return;
@@ -156,7 +156,7 @@ export class Calculator {
 
 
             // 演算子を表示用の記号へ変換
-            const symbol = operationToSymbol(op);
+            const symbol = OperationToSymbol(op);
 
             // 左辺と演算子を履歴エリアに表示
             this.display.renderHistory(
@@ -191,7 +191,7 @@ export class Calculator {
 
             // 左辺と演算子を履歴エリアに表示
             this.display.renderHistory(
-                `${this.left} ${operationToSymbol(op)}`
+                `${this.left} ${OperationToSymbol(op)}`
             );
 
             // 次の数値入力に備えてバッファをクリア
@@ -239,7 +239,7 @@ export class Calculator {
 
         // 左辺と新しい演算子を履歴エリアに表示
         this.display.renderHistory(
-            `${this.left} ${operationToSymbol(op)}`
+            `${this.left} ${OperationToSymbol(op)}`
         );
 
         // 演算子入力済み状態へ遷移
@@ -261,7 +261,7 @@ export class Calculator {
         const right: number = this.buffer.toNumber();
 
         // 演算子を表示用の記号へ変換
-        const symbol = operationToSymbol(this.operator);
+        const symbol = OperationToSymbol(this.operator);
 
         // 計算式を履歴エリアに表示
         this.display.renderHistory(

@@ -642,11 +642,4 @@ describe("Calculatorのテスト", () => {
         expect(display.history).toBe("6 + 2 =");
     });
 
-
-
-
-
-
-
-
-})
+});

@@ -206,4 +206,4 @@ describe("InputBufferのテスト", () => {
         expect(buffer.getValue()).toBe("5");
     });
 
-})
+});
